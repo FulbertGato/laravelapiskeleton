@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "gato/laravelapiskeleton",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "GATO Laravel API Skeleton",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {

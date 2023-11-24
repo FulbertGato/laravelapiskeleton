@@ -17,7 +17,7 @@ class LogResponse
      * @param \Closure(Request): (Response|RedirectResponse) $next
      * @return Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next): Response|RedirectResponse
+    public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
         Log::info('OUTGOING RESPONSE', [

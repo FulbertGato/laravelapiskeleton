@@ -40,14 +40,14 @@ class Handler extends ExceptionHandler
                 'url' => $request->fullUrl(),
                 'code' => $exception->getCode(),
                 'message' => $exception->getMessage()]);
-            return $this->errorResponse($exception->getMessage(), 405, '405');
+            return $this->errorResponse(__('api.method_not_allowed'), 405, '405');
         }
         if ($exception instanceof NotFoundHttpException) {
             Log::error($exception->getMessage(), [
                 'url' => $request->fullUrl(),
                 'code' => $exception->getCode(),
                 'message' => $exception->getMessage()]);
-            return $this->errorResponse($exception->getMessage(), 404, '404');
+            return $this->errorResponse(__('api.not_found'), 404, '404');
         }
         if ($exception instanceof HttpException) {
             Log::error($exception->getMessage(), [
@@ -61,13 +61,23 @@ class Handler extends ExceptionHandler
             Log::error($exception->getMessage(), [
                 'url' => $request->fullUrl(),
                 'code' => $exception->getCode(),
+                'line' => $exception->getLine(),
                 'message' => $exception->getMessage()]);
             $errorCode = $exception->errorInfo[1];
             if ($errorCode == 1451) {
-                return $this->errorResponse($exception->getMessage(), 409, '409');
+                return $this->errorResponse(__('api.server_error'), 500, '500');
             }
             return $this->errorResponse($exception->getMessage(), 500, '500');
 
+        }
+
+        if ($exception instanceof \ErrorException) {
+            Log::error($exception->getMessage(), [
+                'url' => $request->fullUrl(),
+                'code' => $exception->getCode(),
+                'line' => $exception->getLine(),
+                'message' => $exception->getMessage()]);
+            return $this->errorResponse(__('api.server_error'), 500, '500');
         }
         if (config('app.debug')) {
             try {
